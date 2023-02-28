@@ -11,6 +11,22 @@ datasource db {
 }
 
 model User {
-  id     String @id
-  points Int    @default(0)
+  id         String       @id
+  points     Int          @default(0)
+  UserReward UserReward[]
+}
+
+model Reward {
+  id    Int    @id @default(sequence())
+  item  String
+  price Int
+}
+
+model UserReward {
+  rewardId Int
+  userId   String
+  user     User    @relation(fields: [userId], references: [id])
+  pending  Boolean
+
+  @@id([userId, rewardId])
 }
