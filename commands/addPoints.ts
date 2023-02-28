@@ -10,12 +10,14 @@ export default class HelloCommand extends SlashCommand {
         {
           type: CommandOptionType.USER,
           name: 'user',
-          description: 'Usuário que vai receber os pontos'
+          description: 'Usuário que vai receber os pontos',
+          required: true
         },
         {
           type: CommandOptionType.INTEGER,
           name: 'amount',
-          description: 'Quantidade de pontos'
+          description: 'Quantidade de pontos',
+          required: true
         }
       ]
     });
@@ -35,6 +37,6 @@ export default class HelloCommand extends SlashCommand {
       }
     });
 
-    return `${ctx.options.amount} pontos adicionados ao usuário ${ctx.options.user}`;
+    return `${ctx.options.amount} pontos adicionados ao usuário <@${ctx.options.user}>`;
   }
 }

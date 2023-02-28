@@ -18,9 +18,12 @@ export default class HelloCommand extends SlashCommand {
 
   async run(ctx: CommandContext) {
     const user = await prisma.user.findUnique({
-      where: { id: ctx.options.user }
+      where: { id: ctx.options.user ?? ctx.user.id }
     });
 
-    return `Esse usuário tem ${user?.points} pontos`;
+    const points = user?.points ?? 0;
+
+    if (ctx.options.user) return `<@${ctx.options.user}> tem ${points} pontos`;
+    else return `Você tem ${points} pontos`;
   }
 }
