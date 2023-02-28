@@ -4,19 +4,19 @@ import { prisma } from '../db';
 export default class HelloCommand extends SlashCommand {
   constructor(creator: SlashCreator) {
     super(creator, {
-      name: 'adicionar',
-      description: 'Remove pontos de um usuário',
+      name: 'remove',
+      description: 'Removes points from a user',
       options: [
         {
           type: CommandOptionType.USER,
           name: 'user',
-          description: 'Usuário que vai perder pontos',
+          description: 'User that will lose points',
           required: true
         },
         {
           type: CommandOptionType.INTEGER,
           name: 'amount',
-          description: 'Quantidade de pontos',
+          description: 'Amount of points',
           required: true
         }
       ]
@@ -37,6 +37,6 @@ export default class HelloCommand extends SlashCommand {
       }
     });
 
-    return `${ctx.options.amount} pontos removidos do usuário <@${ctx.options.user}>`;
+    return `${ctx.options.user} lost <@${ctx.options.amount}> points`;
   }
 }
