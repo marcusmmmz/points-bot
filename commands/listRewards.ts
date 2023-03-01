@@ -1,4 +1,5 @@
-import { SlashCommand, CommandOptionType, SlashCreator, CommandContext } from 'slash-create';
+import { Reward } from '@prisma/client';
+import { SlashCommand, SlashCreator, CommandContext } from 'slash-create';
 import { prisma } from '../db';
 
 export default class HelloCommand extends SlashCommand {
@@ -10,7 +11,8 @@ export default class HelloCommand extends SlashCommand {
   }
 
   async run(ctx: CommandContext) {
-    const rewards = await prisma.reward.findMany({ select: { id: true, item: true } });
+    // findMany isn't working for some reason
+    const rewards: Reward[] = await prisma.$queryRaw`SELECT * FROM Reward ORDER BY id ASC`;
 
     if (rewards.length == 0) return 'There are no rewards';
 
