@@ -1,4 +1,3 @@
-import { Reward } from '@prisma/client';
 import { SlashCommand, SlashCreator, CommandContext } from 'slash-create';
 import { prisma } from '../db';
 
