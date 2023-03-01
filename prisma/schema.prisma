@@ -24,11 +24,12 @@ model Reward {
 }
 
 model UserReward {
+  id       String  @id @default(cuid())
   rewardId Int
   userId   String
   user     User    @relation(fields: [userId], references: [id])
   pending  Boolean
-  // @@index([userId, rewardId])
 
-  @@id([userId, rewardId])
+  @@unique([userId, rewardId])
+  @@index([userId, rewardId])
 }
