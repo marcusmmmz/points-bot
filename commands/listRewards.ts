@@ -11,8 +11,11 @@ export default class HelloCommand extends SlashCommand {
   }
 
   async run(ctx: CommandContext) {
-    // findMany isn't working for some reason
-    const rewards: Reward[] = await prisma.$queryRaw`SELECT * FROM Reward ORDER BY id ASC`;
+    const rewards = await prisma.reward.findMany({
+      orderBy: {
+        id: 'asc'
+      }
+    });
 
     if (rewards.length == 0) return 'There are no rewards';
 
