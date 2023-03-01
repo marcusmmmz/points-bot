@@ -16,6 +16,8 @@ export default class HelloCommand extends SlashCommand {
       }
     });
 
-    return rewards.map((reward) => `${reward.item} (${reward.id})`).join('\n');
+    if (rewards.length == 0) return 'There are no rewards';
+
+    return 'rewards: \n' + rewards.map((reward) => `${reward.item} (${reward.id})`).join('\n');
   }
 }
