@@ -10,7 +10,7 @@ export default class HelloCommand extends SlashCommand {
   }
 
   async run(ctx: CommandContext) {
-    const rewards = await prisma.reward.findMany();
+    const rewards = await prisma.reward.findMany({ select: { id: true, item: true } });
 
     if (rewards.length == 0) return 'There are no rewards';
 
