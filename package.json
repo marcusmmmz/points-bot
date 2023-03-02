@@ -8,8 +8,7 @@
     "sync:dev": "slash-up sync -e development",
     "build": "prisma generate && tsc",
     "lint": "npx eslint --ext .ts .",
-    "lint:fix": "npx eslint --ext .ts . --fix",
-    "postinstall": "prisma generate"
+    "lint:fix": "npx eslint --ext .ts . --fix"
   },
   "dependencies": {
     "@prisma/client": "^4.5.0",
