@@ -4,8 +4,8 @@ import { prisma } from '../db';
 export default class HelloCommand extends SlashCommand {
   constructor(creator: SlashCreator) {
     super(creator, {
-      name: 'rewards',
-      description: 'Lists all rewards',
+      name: 'r',
+      description: 'Claim a reward',
       options: [
         {
           type: CommandOptionType.INTEGER,
