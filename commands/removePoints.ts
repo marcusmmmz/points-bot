@@ -37,6 +37,6 @@ export default class HelloCommand extends SlashCommand {
       }
     });
 
-    return `${ctx.options.user} lost <@${ctx.options.amount}> points`;
+    return `<@${ctx.options.user}> lost ${ctx.options.amount} points`;
   }
 }

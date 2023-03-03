@@ -4,7 +4,7 @@ import { prisma } from '../db';
 export default class HelloCommand extends SlashCommand {
   constructor(creator: SlashCreator) {
     super(creator, {
-      name: 'consult',
+      name: 'mp',
       description: 'Consult your points'
     });
   }
