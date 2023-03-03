@@ -2,6 +2,7 @@
 
 import { SlashCreator, VercelServer } from 'slash-create';
 import path from 'path';
+import { prisma } from '../db';
 
 export const creator = new SlashCreator({
   applicationID: process.env.DISCORD_APP_ID as string,
@@ -13,9 +14,11 @@ creator.withServer(new VercelServer()).registerCommandsIn(path.join(__dirname, '
 
 creator.on('warn', (message) => console.warn(message));
 creator.on('error', (error) => console.error(error));
-creator.on('commandRun', (command, _, ctx) =>
-  console.info(`${ctx.user.username}#${ctx.user.discriminator} (${ctx.user.id}) ran command ${command.commandName}`)
-);
+creator.on('commandRun', async (command, _, ctx) => {
+  console.info(`${ctx.user.username}#${ctx.user.discriminator} (${ctx.user.id}) ran command ${command.commandName}`);
+  await prisma.$disconnect();
+  console.log('disconn from db');
+});
 creator.on('commandError', (command, error) => console.error(`Command ${command.commandName}:`, error));
 
 export default (creator.server! as VercelServer).vercelEndpoint;

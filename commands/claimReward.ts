@@ -18,7 +18,7 @@ export default class HelloCommand extends SlashCommand {
   }
 
   async run(ctx: CommandContext) {
-    let [user, reward] = await Promise.all([
+    let [user, reward] = await prisma.$transaction([
       prisma.user.findUnique({
         where: { id: ctx.user.id }
       }),
@@ -33,7 +33,7 @@ export default class HelloCommand extends SlashCommand {
 
     if (points < reward.price) return "You don't have enough points to claim this reward";
 
-    await Promise.all([
+    await prisma.$transaction([
       prisma.user.upsert({
         where: { id: ctx.user.id },
         create: {
