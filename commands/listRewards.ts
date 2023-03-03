@@ -18,6 +18,6 @@ export default class HelloCommand extends SlashCommand {
 
     if (rewards.length == 0) return 'There are no rewards';
 
-    return 'rewards: \n' + rewards.map((reward) => `${reward.item} (${reward.id})`).join('\n');
+    return 'rewards: \n' + rewards.map((reward) => `${reward.item} (id ${reward.id}): ${reward.price}MP`).join('\n');
   }
 }
