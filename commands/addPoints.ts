@@ -5,18 +5,18 @@ export default class HelloCommand extends SlashCommand {
   constructor(creator: SlashCreator) {
     super(creator, {
       name: 'give',
-      description: 'Gives points to a user',
+      description: 'Gives MP to a user',
       options: [
         {
           type: CommandOptionType.USER,
           name: 'user',
-          description: 'User that will get points',
+          description: 'User that will get MP',
           required: true
         },
         {
           type: CommandOptionType.INTEGER,
           name: 'amount',
-          description: 'Amount of points',
+          description: 'Amount of MP',
           required: true
         }
       ],
@@ -35,6 +35,6 @@ export default class HelloCommand extends SlashCommand {
         points: knex.raw('?? + ?', ['User.points', ctx.options.amount])
       });
 
-    return `<@${ctx.options.user}> received ${ctx.options.amount} points`;
+    return `<@${ctx.options.user}> received ${ctx.options.amount}MP`;
   }
 }

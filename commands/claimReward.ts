@@ -35,7 +35,7 @@ export default class HelloCommand extends SlashCommand {
 
     const points = user?.points ?? 0;
 
-    if (points < reward.price) return "You don't have enough points to claim this reward";
+    if (points < reward.price) return "You don't have enough MP to claim this reward";
 
     await knex<IUserReward>('UserReward').insert({
       rewardId: ctx.options.id,

@@ -5,18 +5,18 @@ export default class HelloCommand extends SlashCommand {
   constructor(creator: SlashCreator) {
     super(creator, {
       name: 'remove',
-      description: 'Removes points from a user',
+      description: 'Removes MP from a user',
       options: [
         {
           type: CommandOptionType.USER,
           name: 'user',
-          description: 'User that will lose points',
+          description: 'User that will lose MP',
           required: true
         },
         {
           type: CommandOptionType.INTEGER,
           name: 'amount',
-          description: 'Amount of points',
+          description: 'Amount of MP',
           required: true
         }
       ],
@@ -35,6 +35,6 @@ export default class HelloCommand extends SlashCommand {
         points: knex.raw('?? - ?', ['User.points', ctx.options.amount])
       });
 
-    return `<@${ctx.options.user}> lost ${ctx.options.amount} points`;
+    return `<@${ctx.options.user}> lost ${ctx.options.amount}MP`;
   }
 }

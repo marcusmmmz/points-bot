@@ -42,7 +42,7 @@ export default class HelloCommand extends SlashCommand {
 
     const points = user?.points ?? 0;
 
-    if (points < reward.price) return "The user doesn't have enough points to claim this reward";
+    if (points < reward.price) return "The user doesn't have enough MP to claim this reward";
 
     await knex.transaction(async (tx) => [
       await tx<IUser>('User')
