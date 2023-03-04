@@ -27,7 +27,7 @@ export default class HelloCommand extends SlashCommand {
     await knex('User')
       .insert({
         id: ctx.options.user,
-        points: ctx.options.amount
+        points: -ctx.options.amount
       })
       .onConflict(['id'])
       .merge({
