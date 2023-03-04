@@ -19,7 +19,8 @@ export default class HelloCommand extends SlashCommand {
           description: 'Amount of points',
           required: true
         }
-      ]
+      ],
+      requiredPermissions: ['MODERATE_MEMBERS']
     });
   }
 

@@ -19,7 +19,8 @@ export default class HelloCommand extends SlashCommand {
           description: "The reward's id",
           required: true
         }
-      ]
+      ],
+      requiredPermissions: ['MODERATE_MEMBERS']
     });
   }
 

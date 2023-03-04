@@ -19,7 +19,8 @@ export default class HelloCommand extends SlashCommand {
           description: 'Price',
           required: true
         }
-      ]
+      ],
+      requiredPermissions: ['MODERATE_MEMBERS']
     });
   }
 
