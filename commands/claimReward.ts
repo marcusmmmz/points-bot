@@ -43,6 +43,6 @@ export default class HelloCommand extends SlashCommand {
       pending: true
     });
 
-    return "Reward claimed, waiting for the admin's confirmation";
+    return `Reward (id ${reward.id}) claimed, waiting for the admin's confirmation`;
   }
 }
