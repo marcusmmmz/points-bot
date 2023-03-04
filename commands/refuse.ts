@@ -31,6 +31,6 @@ export default class HelloCommand extends SlashCommand {
       })
       .delete();
 
-    return 'Reward refused';
+    return `<@${ctx.options.user}> Reward refused`;
   }
 }

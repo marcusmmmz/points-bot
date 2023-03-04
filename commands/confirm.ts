@@ -63,6 +63,6 @@ export default class HelloCommand extends SlashCommand {
         })
     ]);
 
-    return '<@ctx.user.id> Reward confirmed';
+    return `<@${ctx.options.user}> Reward confirmed`;
   }
 }
