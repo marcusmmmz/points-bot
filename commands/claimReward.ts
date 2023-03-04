@@ -1,5 +1,5 @@
 import { SlashCommand, SlashCreator, CommandContext, CommandOptionType } from 'slash-create';
-import { IReward, IUser, knex } from '../db';
+import { IReward, IUser, IUserReward, knex } from '../db';
 
 export default class HelloCommand extends SlashCommand {
   constructor(creator: SlashCreator) {
@@ -36,6 +36,12 @@ export default class HelloCommand extends SlashCommand {
     const points = user?.points ?? 0;
 
     if (points < reward.price) return "You don't have enough points to claim this reward";
+
+    await knex<IUserReward>('UserReward').insert({
+      rewardId: ctx.options.id,
+      userId: ctx.user.id,
+      pending: true
+    });
 
     return "Reward claimed, waiting for the admin's confirmation";
   }
