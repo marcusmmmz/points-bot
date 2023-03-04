@@ -1,7 +1,4 @@
-import Prisma from '@prisma/client';
 import Knex from 'knex';
-
-export const prisma = new Prisma.PrismaClient();
 
 export const knex = Knex({
   client: 'pg',

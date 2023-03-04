@@ -31,7 +31,7 @@ export default class HelloCommand extends SlashCommand {
       })
       .onConflict(['id'])
       .merge({
-        points: knex.raw('?? - ?', ['points', ctx.options.amount])
+        points: knex.raw('?? - ?', ['User.points', ctx.options.amount])
       });
 
     return `<@${ctx.options.user}> lost ${ctx.options.amount} points`;

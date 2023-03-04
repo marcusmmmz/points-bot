@@ -6,12 +6,11 @@
   "scripts": {
     "sync": "slash-up sync",
     "sync:dev": "slash-up sync -e development",
-    "build": "prisma generate && tsc",
+    "build": "tsc",
     "lint": "npx eslint --ext .ts .",
     "lint:fix": "npx eslint --ext .ts . --fix"
   },
   "dependencies": {
-    "@prisma/client": "^4.11.0",
     "knex": "^2.4.2",
     "pg": "^8.9.0",
     "slash-create": "^5.6.1"
