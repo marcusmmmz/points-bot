@@ -1,5 +1,5 @@
 import { SlashCommand, SlashCreator, CommandContext } from 'slash-create';
-import { prisma } from '../db';
+import { IUser, knex } from '../db';
 
 export default class HelloCommand extends SlashCommand {
   constructor(creator: SlashCreator) {
@@ -10,9 +10,7 @@ export default class HelloCommand extends SlashCommand {
   }
 
   async run(ctx: CommandContext) {
-    const user = await prisma.user.findUnique({
-      where: { id: ctx.user.id }
-    });
+    const user = await knex<IUser>('User').where('id', ctx.user.id).first();
 
     return `You have ${user?.points ?? 0} points`;
   }

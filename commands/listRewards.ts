@@ -1,5 +1,5 @@
 import { SlashCommand, SlashCreator, CommandContext } from 'slash-create';
-import { prisma } from '../db';
+import { IReward, knex } from '../db';
 
 export default class HelloCommand extends SlashCommand {
   constructor(creator: SlashCreator) {
@@ -10,11 +10,7 @@ export default class HelloCommand extends SlashCommand {
   }
 
   async run(ctx: CommandContext) {
-    const rewards = await prisma.reward.findMany({
-      orderBy: {
-        id: 'asc'
-      }
-    });
+    const rewards = await knex<IReward>('Reward').orderBy('id', 'asc');
 
     if (rewards.length == 0) return 'There are no rewards';
 

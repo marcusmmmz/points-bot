@@ -1,5 +1,5 @@
 import { SlashCommand, CommandOptionType, SlashCreator, CommandContext } from 'slash-create';
-import { prisma } from '../db';
+import { knex } from '../db';
 
 export default class HelloCommand extends SlashCommand {
   constructor(creator: SlashCreator) {
@@ -24,18 +24,15 @@ export default class HelloCommand extends SlashCommand {
   }
 
   async run(ctx: CommandContext) {
-    await prisma.user.upsert({
-      where: { id: ctx.options.user },
-      create: {
+    await knex('User')
+      .insert({
         id: ctx.options.user,
         points: ctx.options.amount
-      },
-      update: {
-        points: {
-          increment: ctx.options.amount
-        }
-      }
-    });
+      })
+      .onConflict(['id'])
+      .merge({
+        points: knex.raw('?? + ?', ['points', ctx.options.amount])
+      });
 
     return `<@${ctx.options.user}> received ${ctx.options.amount} points`;
   }

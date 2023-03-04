@@ -1,5 +1,5 @@
 import { SlashCommand, CommandOptionType, SlashCreator, CommandContext } from 'slash-create';
-import { prisma } from '../db';
+import { IReward, knex } from '../db';
 
 export default class HelloCommand extends SlashCommand {
   constructor(creator: SlashCreator) {
@@ -18,9 +18,7 @@ export default class HelloCommand extends SlashCommand {
   }
 
   async run(ctx: CommandContext) {
-    const reward = await prisma.reward.delete({
-      where: { id: ctx.options.id }
-    });
+    const reward = (await knex<IReward>('Reward').where('id', ctx.options.id).delete().returning(['item']))[0];
 
     return `${reward.item} reward was deleted`;
   }

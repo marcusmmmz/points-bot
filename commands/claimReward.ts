@@ -1,5 +1,5 @@
 import { SlashCommand, SlashCreator, CommandContext, CommandOptionType } from 'slash-create';
-import { prisma } from '../db';
+import { IReward, IUser, IUserReward, knex } from '../db';
 
 export default class HelloCommand extends SlashCommand {
   constructor(creator: SlashCreator) {
@@ -18,13 +18,17 @@ export default class HelloCommand extends SlashCommand {
   }
 
   async run(ctx: CommandContext) {
-    let [user, reward] = await prisma.$transaction([
-      prisma.user.findUnique({
-        where: { id: ctx.user.id }
-      }),
-      prisma.reward.findUnique({
-        where: { id: ctx.options.id }
-      })
+    const [user, reward] = await knex.transaction(async (tx) => [
+      (
+        await tx<IUser>('User').where({
+          id: ctx.user.id
+        })
+      )[0],
+      (
+        await tx<IReward>('Reward').where({
+          id: ctx.options.id
+        })
+      )[0]
     ]);
 
     if (!reward) return "This reward doesn't exist";
@@ -33,25 +37,20 @@ export default class HelloCommand extends SlashCommand {
 
     if (points < reward.price) return "You don't have enough points to claim this reward";
 
-    await prisma.$transaction([
-      prisma.user.upsert({
-        where: { id: ctx.user.id },
-        create: {
+    await knex.transaction(async (tx) => [
+      await tx<IUser>('User')
+        .insert({
           id: ctx.user.id,
           points: 0
-        },
-        update: {
-          points: {
-            decrement: reward.price
-          }
-        }
-      }),
-      prisma.userReward.create({
-        data: {
-          rewardId: reward.id,
-          userId: ctx.user.id,
-          pending: true
-        }
+        })
+        .onConflict(['id'])
+        .merge({
+          points: knex.raw('?? - ?', ['points', reward.price])
+        }),
+      await tx<IUserReward>('UserReward').where({
+        rewardId: reward.id,
+        userId: ctx.user.id,
+        pending: true
       })
     ]);
 

@@ -1,5 +1,5 @@
 import { SlashCommand, CommandOptionType, SlashCreator, CommandContext } from 'slash-create';
-import { prisma } from '../db';
+import { IReward, knex } from '../db';
 
 export default class HelloCommand extends SlashCommand {
   constructor(creator: SlashCreator) {
@@ -24,13 +24,15 @@ export default class HelloCommand extends SlashCommand {
   }
 
   async run(ctx: CommandContext) {
-    const reward = await prisma.reward.create({
-      data: {
-        item: ctx.options.item,
-        price: ctx.options.price
-      }
-    });
+    const reward = (
+      await knex<IReward>('Reward')
+        .insert({
+          item: ctx.options.item,
+          price: ctx.options.price
+        })
+        .returning('id')
+    )[0];
 
-    return `${ctx.options.item} created with id ${reward.id}`;
+    return `${ctx.options.item} created with id ${reward?.id}`;
   }
 }
