@@ -17,7 +17,7 @@
   },
   "devDependencies": {
     "@types/node": "^16.7.13",
-    "@vercel/node": "^1.12.1",
+    "@vercel/node": "^1.15.4",
     "eslint": "^7.15.0",
     "prettier": "^2.2.1",
     "prisma": "^4.11.0",
