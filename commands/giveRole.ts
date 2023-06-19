@@ -59,6 +59,6 @@ export default class HelloCommand extends SlashCommand {
       return Promise.all(queries).then(trx.commit).catch(trx.rollback);
     });
 
-    return `All users with role <@${ctx.options.role}> received ${ctx.options.amount}MP`;
+    ctx.send(`All users with role <@${ctx.options.role}> received ${ctx.options.amount}MP`);
   }
 }
