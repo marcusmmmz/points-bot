@@ -59,7 +59,7 @@ export default class HelloCommand extends SlashCommand {
       return Promise.all(queries).then(trx.commit).catch(trx.rollback);
     });
 
-    ctx.editOriginal(`All users with role ${ctx.options.role} received ${ctx.options.amount}MP`);
+    ctx.sendFollowUp(`All users with role ${ctx.options.role} received ${ctx.options.amount}MP`);
 
     return `All users with role ${ctx.options.role} received ${ctx.options.amount}MP`;
   }
