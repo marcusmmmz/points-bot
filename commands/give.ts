@@ -25,9 +25,17 @@ export default class HelloCommand extends SlashCommand {
   }
 
   async run(ctx: CommandContext) {
-    const reqHandler = new RequestHandler(this.creator);
+    console.log(ctx.options.role);
 
-    let members: Member[] = await reqHandler.request('GET', `/guilds/${ctx.guildID}/members?limit=1000`);
+    let headers = {
+      Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`,
+      'Content-Type': 'application/json; charset=UTF-8',
+      'User-Agent': 'DiscordBot (https://github.com/discord/discord-example-app, 1.0.0)'
+    };
+
+    let req = await fetch('https://discord.com/api/v10/guilds/878022430503882752/members?limit=200', { headers });
+
+    let members: Member[] = await req.json();
 
     let membersWithRole = members.filter((user) =>
       user.roles.some((role) => role == ctx.options.role.id ?? ctx.options.role)
