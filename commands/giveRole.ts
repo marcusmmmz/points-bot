@@ -16,7 +16,7 @@ export default class HelloCommand extends SlashCommand {
         {
           type: CommandOptionType.ROLE,
           name: 'role',
-          description: 'Role that will get MP or everyone if not specified',
+          description: 'Role that will get MP',
           required: true
         }
       ],
@@ -36,7 +36,15 @@ export default class HelloCommand extends SlashCommand {
 
     let members: Member[] = await req.json();
 
-    let membersWithRole = members.filter((member) => member.roles.some((role) => role == ctx.options.role));
+    let membersWithRole: Member[] = [];
+
+    const isRoleEveryone = ctx.options.role == ctx.guildID;
+
+    if (isRoleEveryone) {
+      membersWithRole = members;
+    } else {
+      membersWithRole = members.filter((member) => member.roles.some((role) => role == ctx.options.role));
+    }
 
     await knex('User')
       .insert(
@@ -58,6 +66,10 @@ export default class HelloCommand extends SlashCommand {
       return Promise.all(queries).then(trx.commit).catch(trx.rollback);
     });
 
-    return `All users with role ${ctx.options.role} received ${ctx.options.amount}MP`;
+    if (isRoleEveryone) {
+      return `<@&${ctx.guildID}> received ${ctx.options.amount}MP`;
+    } else {
+      return `All users with role <@&${ctx.options.role}> received ${ctx.options.amount}MP`;
+    }
   }
 }
