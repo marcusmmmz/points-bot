@@ -20,13 +20,12 @@ export default class HelloCommand extends SlashCommand {
           required: true
         }
       ],
-      requiredPermissions: ['MODERATE_MEMBERS']
+      requiredPermissions: ['MODERATE_MEMBERS'],
+      deferEphemeral: true
     });
   }
 
   async run(ctx: CommandContext) {
-    ctx.send('Loading...');
-
     let headers = {
       Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`,
       'Content-Type': 'application/json; charset=UTF-8',
@@ -58,8 +57,6 @@ export default class HelloCommand extends SlashCommand {
         .map((user) => knex('User').where('id', user.id).update(user).transacting(trx));
       return Promise.all(queries).then(trx.commit).catch(trx.rollback);
     });
-
-    ctx.sendFollowUp(`All users with role ${ctx.options.role} received ${ctx.options.amount}MP`);
 
     return `All users with role ${ctx.options.role} received ${ctx.options.amount}MP`;
   }
