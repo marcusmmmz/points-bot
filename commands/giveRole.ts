@@ -25,6 +25,8 @@ export default class HelloCommand extends SlashCommand {
   }
 
   async run(ctx: CommandContext) {
+    ctx.defer(false);
+
     let headers = {
       Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`,
       'Content-Type': 'application/json; charset=UTF-8',
